@@ -40,7 +40,8 @@ jobs:
       - name: build and push web
         run: |
           docker build -f docker/web/Dockerfile \
-            --push \
-            --tag ${{secrets.DOCKER_ORG}}/console:latest \
-            --tag ${{secrets.DOCKER_ORG}}/console:${{env.tag}} \
-            --platform linux/amd64 .
+            --tag ${{secrets.DOCKER_ORG}}/web:latest \
+            --tag ${{secrets.DOCKER_ORG}}/web:${{env.tag}} \
+            .
+          docker push web:latest
+          docker push web:${{env.tag}}
