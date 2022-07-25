@@ -22,6 +22,10 @@ jobs:
           username: ${{ secrets.DOCKER_USER }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
+      - name: install ares-cli
+        run: |
+          npm install -g @webosose/ares-cli
+
       - name: build web and app
         run: |
           make build
