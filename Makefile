@@ -10,6 +10,10 @@ APP=tv.cesium.app
 $(WEBOS_SRC):
 
 
+sysdeps:
+	npm install -g @webosose/ares-cli
+
+
 node_modules: package-lock.json
 	npm i
 	touch node_modules
@@ -32,7 +36,7 @@ build: node_modules dist/index.html dist/${APP}_0.0.1_all.ipk
 
 
 image: build
-	${DOCKER} build -t cesium.tv-web:latest -f docker/cesium.tv-web/Dockerfile .
+	${DOCKER} build -t web:latest -f docker/web/Dockerfile .
 
 
 .PHONY: dev
@@ -43,7 +47,7 @@ dev: node_modules
 .PHONY: run
 run: image install-tv
 	ares-launch --device=${TV} ${APP}
-	${DOCKER} run -ti --net=host cesium.tv-web:latest
+	${DOCKER} run -ti --net=host web:latest
 
 
 .PHONY: install-tv
@@ -59,7 +63,7 @@ install-emu: build
 .PHONY: emu
 emu: image install-emu
 	ares-launch --device=${EMU} ${APP}
-	${DOCKER} run -ti --net=host cesium.tv-web:latest
+	${DOCKER} run -ti --net=host web:latest
 
 
 .PHONY: debug
