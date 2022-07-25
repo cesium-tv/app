@@ -16,12 +16,6 @@ jobs:
       - name: Create tag
         run: echo "tag=$(date +%s)" >> $GITHUB_ENV
 
-      - name: install buildx
-        id: buildx
-        uses: crazy-max/ghaction-docker-buildx@v1
-        with:
-          version: latest
-
       - name: Login to DockerHub
         uses: docker/login-action@v1 
         with:
@@ -41,7 +35,7 @@ jobs:
 
       - name: build and push web
         run: |
-          docker buildx build -f docker/web/Dockerfile \
+          docker build -f docker/web/Dockerfile \
             --push \
             --tag ${{secrets.DOCKER_ORG}}/console:latest \
             --tag ${{secrets.DOCKER_ORG}}/console:${{env.tag}} \
