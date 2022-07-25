@@ -28,6 +28,17 @@ jobs:
           username: ${{ secrets.DOCKER_USER }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
+      - name: build web and app
+        run: |
+          make build
+
+      - name: publish app
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{env.tag}}
+          files: |
+            dist/tv.cesium.app_*_all.ipk
+
       - name: build and push web
         run: |
           docker buildx build -f docker/web/Dockerfile \
