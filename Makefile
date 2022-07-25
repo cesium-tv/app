@@ -12,6 +12,11 @@ $(WEBOS_SRC):
 
 node_modules: package-lock.json
 	npm i
+	touch node_modules
+
+
+dist:
+	mkdir dist
 
 
 dist/index.html: $(VUE_SRC)
@@ -19,7 +24,11 @@ dist/index.html: $(VUE_SRC)
 	touch dist/index.html
 
 
-build: node_modules dist/index.html
+dist/${APP}_0.0.1_all.ipk: dist $(WEBOS_SRC)
+	ares-package app -o dist/
+
+
+build: node_modules dist/index.html dist/${APP}_0.0.1_all.ipk
 
 
 image: build
@@ -31,20 +40,10 @@ dev: node_modules
 	npm run dev
 
 
-.PHONY: runs
-run: image
+.PHONY: run
+run: image install-tv
+	ares-launch --device=${TV} ${APP}
 	${DOCKER} run -ti --net=host cesium.tv-web:latest
-
-
-dist:
-	mkdir dist
-
-
-dist/${APP}_0.0.1_all.ipk: dist $(WEBOS_SRC)
-	ares-package app -o dist/
-
-
-build: dist/${APP}_0.0.1_all.ipk
 
 
 .PHONY: install-tv
@@ -57,14 +56,10 @@ install-emu: build
 	ares-install --device=${EMU} dist/${APP}_0.0.1_all.ipk
 
 
-.PHONY: run
-run: install-tv
-	ares-launch --device=${TV} ${APP}
-
-
 .PHONY: emu
-emu: install-emu
+emu: image install-emu
 	ares-launch --device=${EMU} ${APP}
+	${DOCKER} run -ti --net=host cesium.tv-web:latest
 
 
 .PHONY: debug
