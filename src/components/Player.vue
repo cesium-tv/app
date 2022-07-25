@@ -31,6 +31,7 @@
         <b-slider
           rounded
           size="is-large"
+          type="is-info"
           :value="progress"
         >
         </b-slider>
