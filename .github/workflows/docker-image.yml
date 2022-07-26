@@ -45,3 +45,11 @@ jobs:
             .
           docker push ${{secrets.DOCKER_ORG}}/web:latest
           docker push ${{secrets.DOCKER_ORG}}/web:${{env.tag}}
+
+      - name: docker hub description
+        uses: peter-evans/dockerhub-description@v2
+        with:
+          readme-filepath: ./README.md
+          username: ${{ secrets.DOCKER_USER }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          repository: ${{ secrets.DOCKER_ORG }}/cesiumtv
