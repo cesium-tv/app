@@ -14,25 +14,16 @@ sysdeps:
 	npm install -g @webosose/ares-cli
 
 
-node_modules: package-lock.json
-	npm i
-	touch node_modules
-
-
 dist:
 	mkdir dist
-
-
-dist/index.html: $(VUE_SRC)
-	npm run build
-	touch dist/index.html
 
 
 dist/${APP}_0.0.1_all.ipk: dist $(WEBOS_SRC)
 	ares-package app -o dist/
 
 
-build: node_modules dist/index.html dist/${APP}_0.0.1_all.ipk
+build: dist/${APP}_0.0.1_all.ipk
+	$(MAKE) -C web build
 
 
 image: build
@@ -78,4 +69,5 @@ debug-emu:
 
 .PHONY: clean
 clean:
-	rm -rf dist node_modules
+	rm -rf dist
+	$(MAKE) -C web clean

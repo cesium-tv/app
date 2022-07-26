@@ -1,6 +1,6 @@
 module.exports = {
   publicPath: "",
-  outputDir: "dist",
+  outputDir: "../dist",
   assetsDir: "assets",
   indexPath: "index.html",
   devServer: {

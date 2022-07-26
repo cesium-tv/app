@@ -5,7 +5,7 @@
   "type": "web",
   "main": "index.html",
   "title": "Cesium",
-  "icon": "icon.png",
+  "icon": "../web/src/assets/icon.png",
   "largeIcon": "icon_large.png",
   "splashBackground": "splash.png",
   "iconColor": "474747",
