@@ -1,22 +1,23 @@
 <template>
   <section>
     <b-sidebar
-      type="is-black"
-      mobile="reduce"
+      type="is-dark"
       :fullheight="true"
       :fullwidth="false"
       :overlay="false"
       :right="false"
-      :reduce="!open"
+      :reduce="reduce"
+      :open="true"
       :can-cancel="false"
-      open
     >
       <div class="p-1">
-        <img
-          id="logo"
-          :src="icon"
-          alt="Video player"
-        />
+        <div class="logo">
+          <img
+            id="logo"
+            :src="icon"
+            alt="Video player"
+          />
+        </div>
         <b-menu>
           <div
             @errokees:selected="onMenuSelected"
@@ -96,78 +97,56 @@ export default {
 
   data() {
     return {
-      open: false,
       icon,
+      reduce: true,
     };
   },
 
   methods: {
     onMenuSelected() {
       console.log('Selected');
-      this.open = true;
+      this.reduce = false;
     },
 
     onMenuDeselected() {
       console.log('Deselected');
-      this.open = false;
+      this.reduce = true;
     }
   },
 };
 </script>
 
 <style lang="scss">
-#logo {
-  margin-bottom: 10;
-  width: 40px;
+.errokees-selected ul li a {
+  background-color: hsl(204, 86%, 53%);
+  color: hsl(0, 0%, 100%);
+}
+
+.logo {
+  text-align: center;
+  padding-top: 5px;
+}
+
+.menu-list li {
+  height: 40px;
+}
+
+.menu {
+  position: absolute;
+  top: 110px;
 }
 
 .p-1 {
   padding: 1em;
 }
 
-
-.errokees-selected ul li a {
-  background-color: hsl(204, 86%, 53%);
-  color: hsl(0, 0%, 100%);
-}
-
-.menu-list a:hover {
-  background-color: hsl(204, 86%, 53%);
-  color: hsl(0, 0%, 100%);
-}
-
-.menu-list a {
-    border-radius: 2px;
-    color: hsl(0deg, 0%, 29%);
-    display: block;
-    padding: 0.5em 0.75em;
-}
-
-a:hover {
-    color: hsl(0deg, 0%, 21%);
-}
-
-.sidebar-page {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    min-height: 100%;
-    // min-height: 100vh;
-    .sidebar-layout {
-        display: flex;
-        flex-direction: row;
-        min-height: 100%;
-        // min-height: 100vh;
-    }
-}
-
 .b-sidebar {
     .sidebar-content {
-      width: 130px;
+      width: 132px;
         &.is-mini {
           width: 48px;
             &:not(.is-mini-expand),
-            &.is-mini-expand:not(:hover):not(.is-mini-delayed) {
+            &.is-mini-expand:not(.is-mini-delayed) {
                 .menu-list {
                     li {
                         a {
@@ -175,29 +154,10 @@ a:hover {
                                 display: none;
                             }
                         }
-                        ul {
-                            padding-left: 0;
-                            li {
-                                a {
-                                    display: inline-block;
-                                }
-                            }
-                        }
                     }
-                }
-                .menu-label:not(:last-child) {
-                    margin-bottom: 0;
                 }
             }
         }
-    }
-}
-
-.is-mini-expand {
-    .menu-list a {
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
     }
 }
 </style>

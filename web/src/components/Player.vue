@@ -2,7 +2,7 @@
   <div
     id="container"
     ref="container"
-    :class="{ hide: !visible, show: visible }"
+    :class="{ hide: !display.player, show: display.player }"
   >
     <video
       autoplay
@@ -12,11 +12,12 @@
     ></video>
 
     <div
-      :class="{ hide: !controls, show: controls }"
       id="overlay"
+      :class="{ hide: !display.controls, show: display.controls }"
     >
       <div
         id="playpause"
+        :class="{ hide: !display.playPause, show: display.playPause }"
       >
         <b-icon
           :icon="(status.playing) ? 'pause' : 'play'"
@@ -35,9 +36,9 @@
           :value="progress"
         >
         </b-slider>
-        <p style="text-align: left; font-weight: bold; color: white;">
+        <p class="time time-curr">
           {{ status.time | hms }}
-          <span style="float: right; font-weight: bold; color: white;">{{ status.duration | hms }}</span>
+          <span class="time time-duration">{{ status.duration | hms }}</span>
         </p>      
       </div>
     </div>
@@ -59,6 +60,7 @@ const CHANDN = 34;
 const RIGHT = 39;
 const LEFT = 37;
 const SPACE = 32;
+const ENTER = 13;
 
 export default {
   name: 'Player',
@@ -72,18 +74,22 @@ export default {
     },
   },
 
-  timeout: null,
-
   data() {
     return {
       video: null,
-      visible: false,
-      controls: false,
-      dimension: '1280x720',
+      display: {
+        player: false,
+        controls: false,
+        playPause: false,
+      },
       status: {
         time: null,
         duration: null,
         playing: false,
+      },
+      timeouts: {
+        controls: null,
+        playPause: null,
       },
     };
   },
@@ -123,7 +129,7 @@ export default {
   },
 
   watch: {
-    source(newValue, oldValue) {
+    video(newValue, oldValue) {
       if (newValue && newValue !== oldValue) {
         const $video = this.$refs.video;
         $video.currentTime = 0;
@@ -133,8 +139,18 @@ export default {
   },
 
   computed: {
+    dimension() {
+      const dimensions = [];
+      Object.entries(this.video.sources).forEach(entry =>{
+        const [dimension, source] = entry;
+        dimensions.push([source.height, dimension]);
+      });
+      dimensions.sort((a, b) => (b[0] - a[0]))
+      return dimensions[0][1];
+    },
+
     source() {
-      return this.video && this.video.sources[this.dimension];
+      return this.video && this.video.sources[this.dimension].url;
     },
 
     progress() {
@@ -144,7 +160,7 @@ export default {
 
   methods: {
     show() {
-      this.visible = true;
+      this.display.player = true;
       const $container = this.$refs.container;
       if ($container.requestFullscreen) {
           $container.requestFullscreen();
@@ -158,17 +174,32 @@ export default {
     },
 
     showControls() {
-      this.controls = true;
-      clearTimeout(this.timeout);
-      this.timeout = setTimeout(() => {
+      this.display.controls = true;
+      clearTimeout(this.timeouts.controls);
+      this.timeouts.controls = setTimeout(() => {
         if (!this.status.playing) {
           return;
         }
-        this.controls = false;
-      }, 5000);
+        this.display.controls = false;
+      }, 3000);
+    },
+
+    showPlayPause() {
+      this.display.playPause = true;
+      clearTimeout(this.timeouts.playPause);
+      this.timeouts.playPause = setTimeout(() => {
+        this.display.playPause = false;
+      }, 1000);
     },
 
     hide() {
+      this.display.player = false;
+      if (!document.webkitIsFullScreen &&
+          !document.mozFullScreen &&
+          !document.msFullscreenElement)
+      {
+        return;
+      }
       try {
         if (document.exitFullscreen) {
             document.exitFullscreen();
@@ -182,7 +213,6 @@ export default {
       } catch (e) {
         console.error(e);
       }
-      this.visible = false;
     },
 
     play(video) {
@@ -190,7 +220,8 @@ export default {
 
       this.video = video;
       this.show();
-      this.showControls();
+      //this.showControls();
+      //this.showPlayPause();
     },
 
     pause() {
@@ -200,7 +231,8 @@ export default {
 
       $video.pause();
       this.hide();
-      this.showControls();
+      //this.showControls();
+      //this.showPlayPause();
     },
 
     stop() {
@@ -227,12 +259,14 @@ export default {
         case PLAY:
         case PLAY_TV:
         case SPACE:
+        case ENTER:
           if ($video.paused) {
             $video.play();
           } else {
             $video.pause();
           }
           this.showControls();
+          this.showPlayPause();
           break;
 
         case RIGHT:
@@ -263,10 +297,25 @@ export default {
 </script>
 
 <style scoped>
+.time {
+  font-weight: bold;
+  font-size: 22px;
+  color: white;
+}
+
+.time-curr {
+  text-align: left;
+}
+
+.time-duration {
+  float: right;
+}
+
 #container {
   width: 100%;
   height: 100%;
   background-color: black;
+  z-index: 1000;
 }
 
 video {
@@ -295,10 +344,11 @@ video {
 
 #playpause {
 	position: absolute;
-  top: 50%;
+  top: 40%;
 	left: 50%;
   margin-top: -24;
   margin-left: -24;
+  font-size: 78px;
 }
 
 #controls {

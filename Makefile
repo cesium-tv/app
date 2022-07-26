@@ -31,8 +31,8 @@ image: build
 
 
 .PHONY: dev
-dev: node_modules
-	npm run dev
+dev:
+	$(MAKE) -C web dev
 
 
 .PHONY: run

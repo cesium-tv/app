@@ -37,7 +37,7 @@ export default {
 
 <style lang="scss">
 #grid {
-  padding-left: 140px;
+  padding-left: 60px;
   position: absolute;
   top: 0;
   bottom: 0;

@@ -52,4 +52,4 @@ jobs:
           readme-filepath: ./README.md
           username: ${{ secrets.DOCKER_USER }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: ${{ secrets.DOCKER_ORG }}/cesiumtv
+          repository: ${{ secrets.DOCKER_ORG }}/web
