@@ -1,12 +1,12 @@
 <template>
   <section>
     <b-sidebar
-      type="is-dark"
+      type="is-black"
+      mobile="reduce"
       :fullheight="true"
       :fullwidth="false"
       :overlay="false"
       :right="false"
-      mobile="reduce"
       :reduce="!open"
       :can-cancel="false"
       open
@@ -125,9 +125,26 @@ export default {
   padding: 1em;
 }
 
-.errokees-selected {
-  background-color: hsl(0deg, 0%, 96%);
-  color: hsl(0deg, 0%, 21%);
+
+.errokees-selected ul li a {
+  background-color: hsl(204, 86%, 53%);
+  color: hsl(0, 0%, 100%);
+}
+
+.menu-list a:hover {
+  background-color: hsl(204, 86%, 53%);
+  color: hsl(0, 0%, 100%);
+}
+
+.menu-list a {
+    border-radius: 2px;
+    color: hsl(0deg, 0%, 29%);
+    display: block;
+    padding: 0.5em 0.75em;
+}
+
+a:hover {
+    color: hsl(0deg, 0%, 21%);
 }
 
 .sidebar-page {

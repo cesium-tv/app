@@ -155,6 +155,6 @@ export default {
 }
 
 .errokees-selected {
-  border: 2px solid #757575;
+  border: 2px solid hsl(204, 86%, 53%);;
 }
 </style>
