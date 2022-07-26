@@ -104,12 +104,10 @@ export default {
 
   methods: {
     onMenuSelected() {
-      console.log('Selected');
       this.reduce = false;
     },
 
     onMenuDeselected() {
-      console.log('Deselected');
       this.reduce = true;
     }
   },

@@ -10,7 +10,7 @@
         v-for="(video, i) in videos"
         :key="i"
         :id="`video-${video.uid}`"
-        @errokees:activate="playVideo(video)"
+        @errokees:activate="$bus.$emit('video:play', video)"
         @errokees:selected="scrollTop(video.uid)"
       >
         <div class="card-image">
@@ -81,10 +81,6 @@ export default {
   },
 
   methods: {
-    playVideo (video) {
-      this.$bus.$emit('video:play', video);
-    },
-
     scrollTop(id) {
       /*
       NOTE: scrollIntoView() is broken on webOS. Also, it is not quite what we
@@ -94,8 +90,6 @@ export default {
       const vid = document.getElementById(`video-${id}`);
       const top = row.offsetTop, rowWidth = row.offsetWidth;
       const left = vid.offsetLeft, vidWidth = vid.offsetWidth;
-      console.log(row, top, rowWidth);
-      console.log(vid, left, vidWidth);
       row.parentNode.scrollTo({
         behavior: 'smooth',
         top,

@@ -4,9 +4,11 @@
       <Sidebar/>
       <router-view/>
     </section>
-    <Player
-      @video:play="onVideoPlay"
-      @video:stop="onVideoStop"
+    <Video
+      v-model="video"
+      v-if="video"
+      @play="$errokees.pause()"
+      @stop="$errokees.resume()"
     />
     <Loading/>
   </div>
@@ -15,7 +17,7 @@
 <script>
 import Sidebar from '@/components/Sidebar';
 import Grid from '@/components/Grid';
-import Player from '@/components/Player';
+import Video from '@/components/player/Video';
 import Loading from '@/components/Loading';
 
 export default {
@@ -24,23 +26,26 @@ export default {
   components: {
     Sidebar,
     Grid,
-    Player,
+    Video,
     Loading,
+  },
+
+  data() {
+    return {
+      video: null,
+    };
+  },
+
+  mounted() {
+    this.$bus.$on('video:play', video => {
+      this.$bus.$emit('busy');
+      this.video = video;
+    });
   },
 
   unmounted() {
     this.$errokees.disable();
     this.$errokees = null;
-  },
-
-  methods: {
-    onVideoStop() {
-      this.$errokees.resume();
-    },
-
-    onVideoPlay(video) {
-      this.$errokees.pause();
-    },
   },
 }
 </script>

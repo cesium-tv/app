@@ -20,6 +20,7 @@
     "debug": "^4.3.2",
     "errokees": "^0.2.1",
     "sass": "^1.53.0",
+    "screenfull": "^5.2.0",
     "smoothscroll-polyfill": "^0.4.4",
     "vue": "^2.6.10",
     "vue-router": "^3.0.3"

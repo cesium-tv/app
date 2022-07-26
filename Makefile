@@ -18,12 +18,16 @@ dist:
 	mkdir dist
 
 
+.PHONY: dist/index.html
+dist/index.html:
+	$(MAKE) -C web build
+
+
 dist/${APP}_0.0.1_all.ipk: dist $(WEBOS_SRC)
 	ares-package app -o dist/
 
 
-build: dist/${APP}_0.0.1_all.ipk
-	$(MAKE) -C web build
+build: dist/${APP}_0.0.1_all.ipk dist/index.html
 
 
 image: build
@@ -59,12 +63,12 @@ emu: image install-emu
 
 .PHONY: debug
 debug:
-	ares-inspect --device=${TV} ${APP}
+	ares-inspect --device=${TV} --open ${APP}
 
 
 .PHONY: debug-emu
 debug-emu:
-	ares-inspect --device=${EMU} ${APP}
+	ares-inspect --device=${EMU} --open ${APP}
 
 
 .PHONY: clean
