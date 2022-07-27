@@ -27,7 +27,7 @@ dist/${APP}_0.0.1_all.ipk: dist $(WEBOS_SRC)
 	ares-package app -o dist/
 
 
-build: dist/${APP}_0.0.1_all.ipk dist/index.html
+build: dist/index.html dist/${APP}_0.0.1_all.ipk
 
 
 image: build
