@@ -146,6 +146,7 @@ export default {
     },
 
     hide() {
+      this.$bus.$emit('idle');
       this.$emit('stop');
       this.$emit('input', null);
 
@@ -163,7 +164,8 @@ export default {
     seek(delta) {
       /*
       Enter seeking state, and show controls. Seeking state causes the
-      scrubber to display the seek value rather than the time value.
+      scrubber to display the seek value rather than the time value (
+      the time value jumps around).
 
       Seeking state is exited once the video element reports currentTime
       +/- 1% of the requested value, meaning it "caught up" to our seek.
@@ -228,7 +230,7 @@ export default {
   width: 100%;
   height: 100%;
   background-color: black;
-  z-index: 1000;
+  z-index: 999;
 }
 
 video {
