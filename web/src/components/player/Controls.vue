@@ -8,24 +8,22 @@
       id="controls"
       class="closed"
     >
-      <b-slider
-        rounded
-        size="is-large"
-        type="is-info"
-        :value="progress"
-      >
-      </b-slider>
-      <p class="time time-curr">
-        {{ state.time | hms }}
-        <span class="time time-duration">{{ state.duration | hms }}</span>
-      </p>      
+      <Scrubber
+        :state="state"
+      />
     </div>
   </div>
 </template>
 
 <script>
+import Scrubber from '@/components/player/Scrubber';
+
 export default {
   name: 'Controls',
+
+  components: {
+    Scrubber,
+  },
 
   data() {
     return {
@@ -48,25 +46,11 @@ export default {
     state: {
       type: Object,
       default: {
+        skip: 0,
         time: null,
         duration: null,
         playing: false,
       }
-    },
-  },
-
-  computed: {
-    progress() {
-      return (100 / this.state.duration) * this.state.time;
-    }
-  },
-
-  filters: {
-    hms(value) {
-      const hours = Math.floor(value / 3600).toString().padStart(2, '0');
-      const minutes = Math.floor(value % 3600 / 60).toString().padStart(2, '0');
-      const seconds = Math.floor(value % 3600 % 60).toString().padStart(2, '0');
-      return `${hours}:${minutes}:${seconds}`;
     },
   },
 
@@ -89,20 +73,6 @@ export default {
 </script>
 
 <style scoped>
-.time {
-  font-weight: bold;
-  font-size: 22px;
-  color: white;
-}
-
-.time-curr {
-  text-align: left;
-}
-
-.time-duration {
-  float: right;
-}
-
 #overlay {
   position: absolute;
   top: 0;

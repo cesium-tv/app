@@ -48,6 +48,7 @@ const STATUS = {
   PLAYING: 1,
   PAUSED: 2,
   STOPPED: 3,
+  SEEKING: 4,
 };
 
 export default {
@@ -71,6 +72,7 @@ export default {
       playPause: false,
       state: {
         status: STATUS.LOADING,
+        seek: 0,
         time: null,
         duration: null,
       },
@@ -88,7 +90,17 @@ export default {
 
     $video.addEventListener("timeupdate", (ev) => {
       this.state.duration = ev.target.duration;
-      this.state.time = ev.target.currentTime;
+      const time = ev.target.currentTime;
+      if (this.state.status === STATUS.SEEKING) {
+        if (time < this.state.seek * 1.01 ||
+            time > this.state.seek * -1.01) {
+          this.state.seek = 0;
+          this.state.status = STATUS.PLAYING;
+        } else {
+          return;
+        }
+      }
+      this.state.time = time;
     });
     $video.addEventListener('play', () => {
       this.$bus.$emit('idle');
@@ -97,10 +109,13 @@ export default {
       this.$bus.$emit('busy');
     });
     $video.addEventListener('playing', () => {
+      if (this.state.status === STATUS.SEEKING) {
+        return;
+      }
       const status = this.state.status;
       this.$bus.$emit('idle');
       this.state.status = STATUS.PLAYING;
-      // NOTE: don't show controls when first playing, or skipping.
+      // NOTE: don't show controls when first playing, or seeking.
       if (status === STATUS.PAUSED) {
         this.controls = false;
         this.playPause = true;
@@ -165,9 +180,20 @@ export default {
       }
     },
 
-    onKeyDown(ev) {
-      console.log('keyCode:', ev.keyCode);
+    seek(delta) {
+      /*
+      Enter seeking state, and show controls. Seeking state causes the
+      scrubber to display the seek value rather than the time value.
 
+      Seeking state is exited once the video element reports currentTime
+      +/- 1% of the requested value, meaning it "caught up" to our seek.
+      */
+      this.state.status = STATUS.SEEKING;
+      this.controls = true;
+      this.state.seek = this.$refs.video.currentTime += delta;
+    },
+
+    onKeyDown(ev) {
       const $video = this.$refs.video;
       if (!$video) {
         return;
@@ -194,14 +220,12 @@ export default {
 
         case KEYCODE.RIGHT:
         case KEYCODE.FFD:
-          $video.currentTime += 10;
-          this.controls = true;
+          this.seek(10);
           break;
 
         case KEYCODE.LEFT:
         case KEYCODE.RWD:
-          $video.currentTime -= 10;
-          this.controls = true;
+          this.seek(-10);
           break;
 
         case KEYCODE.STOP:

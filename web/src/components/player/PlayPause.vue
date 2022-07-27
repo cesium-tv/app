@@ -37,6 +37,7 @@ export default {
     state: {
       type: Object,
       default: {
+        skip: 0,
         time: null,
         duration: null,
         playing: false,
