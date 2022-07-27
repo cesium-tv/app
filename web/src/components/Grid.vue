@@ -11,7 +11,7 @@
 <script>
 import axios from 'axios';
 import GridRow from '@/components/GridRow';
-import config from '@/config';
+import { API_URL } from '@/config';
 import utils from '@/utils';
 
 export default {
@@ -28,7 +28,7 @@ export default {
   },
 
   mounted() {
-    axios.get(utils.urlJoin(config.API_URL, '/channels/'))
+    axios.get(utils.urlJoin(API_URL, '/channels/'))
       .then(r => this.channels = r.data.results)
       .catch(console.error);
   },

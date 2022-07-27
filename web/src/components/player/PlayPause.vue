@@ -4,7 +4,7 @@
     v-if="value"
   >
     <b-icon
-      :icon="(state.status === 1) ? 'play' : 'pause'"
+      :icon="(statusPlaying) ? 'play' : 'pause'"
       size="is-large"
       type="is-light"
     >
@@ -14,6 +14,8 @@
 </template>
 
 <script>
+import { STATUS } from '@/config';
+
 export default {
   name: 'PlayPause',
 
@@ -37,12 +39,20 @@ export default {
     state: {
       type: Object,
       default: {
-        skip: 0,
+      state: {
+        status: STATUS.LOADING,
+        seek: 0,
         time: null,
         duration: null,
-        playing: false,
+      },
       }
     }
+  },
+
+  computed: {
+    statusPlaying() {
+      return this.state.status === STATUS.PLAYING;
+    },
   },
 
   methods: {

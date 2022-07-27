@@ -14,6 +14,8 @@
 </template>
 
 <script>
+import { STATUS } from '@/config';
+
 export default {
   name: 'Scrubber',
 
@@ -21,17 +23,19 @@ export default {
     state: {
       type: Object,
       default: {
+      state: {
+        status: STATUS.LOADING,
         seek: 0,
         time: null,
         duration: null,
-        playing: false,
+      },
       }
     },
   },
 
   computed: {
     time() {
-      return this.state.status === 4 ? this.state.seek : this.state.time;
+      return this.state.status === STATUS.SEEKING ? this.state.seek : this.state.time;
     },
 
     progress() {

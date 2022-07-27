@@ -55,7 +55,7 @@
 
 <script>
 import axios from 'axios';
-import config from '@/config';
+import { API_URL } from '@/config';
 import utils from '@/utils';
 
 export default {
@@ -75,7 +75,7 @@ export default {
   },
 
   mounted() {
-    axios.get(utils.urlJoin(config.API_URL, '/videos/', {channel: this.channel.uid}))
+    axios.get(utils.urlJoin(API_URL, '/videos/', {channel: this.channel.uid}))
       .then(r => this.videos = r.data.results)
       .catch(console.error);
   },

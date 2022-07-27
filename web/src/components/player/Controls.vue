@@ -17,6 +17,7 @@
 
 <script>
 import Scrubber from '@/components/player/Scrubber';
+import { STATUS} from '@/config';
 
 export default {
   name: 'Controls',
@@ -46,10 +47,12 @@ export default {
     state: {
       type: Object,
       default: {
-        skip: 0,
+      state: {
+        status: STATUS.LOADING,
+        seek: 0,
         time: null,
         duration: null,
-        playing: false,
+      },
       }
     },
   },
@@ -60,8 +63,7 @@ export default {
       clearTimeout(this.timeout);
 
       this.timeout = setTimeout(() => {
-        if (this.state.status === 2) {
-          // paused.
+        if (this.state.status === STATUS.PAUSED) {
           return;
         }
         this.visible = false;

@@ -26,30 +26,7 @@
 import screenfull from 'screenfull';
 import PlayPause from '@/components/player/PlayPause';
 import Controls from '@/components/player/Controls';
-
-const KEYCODE = {
-  BACK: 461,
-  ESC: 27,
-  PLAY: 179,
-  PLAY_TV: 415,  // NOTE: different on TV vs. emu.
-  PAUSE: 19,
-  FFD: 228,
-  RWD: 227,
-  STOP: 169,
-  CHANUP: 33,
-  CHANDN: 34,
-  RIGHT: 39,
-  LEFT: 37,
-  SPACE: 32,
-  ENTER: 13,
-};
-const STATUS = {
-  LOADING: 0,
-  PLAYING: 1,
-  PAUSED: 2,
-  STOPPED: 3,
-  SEEKING: 4,
-};
+import { KEYCODE, STATUS } from '@/config';
 
 export default {
   name: 'Video',
@@ -83,16 +60,18 @@ export default {
   mounted() {
     const $video = this.$refs.video;
 
-    this.eventHandlers.keyDown = this.onKeyDown.bind(this);
+    this.eventHandlers = {
+      keyDown: this.onKeyDown.bind(this),
+      fullScreen: this.onFullscreen.bind(this),
+    };
     document.addEventListener('keydown', this.eventHandlers.keyDown);
-    this.eventHandlers.fullScreen = this.onFullscreen.bind(this);
     screenfull.on('change', this.eventHandlers.fullScreen);
 
     $video.addEventListener("timeupdate", (ev) => {
       this.state.duration = ev.target.duration;
       const time = ev.target.currentTime;
       if (this.state.status === STATUS.SEEKING) {
-        if (time < this.state.seek * 1.01 ||
+        if (time < this.state.seek * 1.01 &&
             time > this.state.seek * -1.01) {
           this.state.seek = 0;
           this.state.status = STATUS.PLAYING;
@@ -102,16 +81,16 @@ export default {
       }
       this.state.time = time;
     });
+
     $video.addEventListener('play', () => {
       this.$bus.$emit('idle');
     });
+
     $video.addEventListener('stalled', () => {
       this.$bus.$emit('busy');
     });
+
     $video.addEventListener('playing', () => {
-      if (this.state.status === STATUS.SEEKING) {
-        return;
-      }
       const status = this.state.status;
       this.$bus.$emit('idle');
       this.state.status = STATUS.PLAYING;
@@ -121,6 +100,7 @@ export default {
         this.playPause = true;
       }
     });
+
     $video.addEventListener('pause', () => {
       this.state.status = STATUS.PAUSED;
       this.controls = true;
