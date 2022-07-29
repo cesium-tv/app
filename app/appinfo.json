@@ -7,7 +7,7 @@
   "title": "Cesium",
   "icon": "icon.png",
   "largeIcon": "icon_large.png",
-  "splashBackground": "splash.png",
+  "splashBackground": "splash.jpg",
   "iconColor": "474747",
   "disableBackHistoryAPI": true
 }

@@ -28,6 +28,14 @@ import PlayPause from '@/components/player/PlayPause';
 import Controls from '@/components/player/Controls';
 import { KEYCODE, STATUS } from '@/config';
 
+const CODEGROUPS = {
+  PLAY_PAUSE: [KEYCODE.PAUSE, KEYCODE.SPACE, KEYCODE.ENTER],
+  PLAY: [KEYCODE.PLAY, KEYCODE.PLAY_TV],
+  FFD: [KEYCODE.FFW, KEYCODE.RIGHT],
+  RWD: [KEYCODE.RWD, KEYCODE.LEFT],
+  STOP: [KEYCODE.STOP, KEYCODE.STOP_TV, KEYCODE.BACK, KEYCODE.ESC],
+};
+
 export default {
   name: 'Video',
 
@@ -181,44 +189,30 @@ export default {
         return;
       }
 
-      switch (ev.keyCode) {
-        case KEYCODE.PAUSE:
-        case KEYCODE.SPACE:
-        case KEYCODE.ENTER:
-          if ($video.paused) {
-            $video.play();
-          } else {
-            $video.pause();
-          }
-          break;
-
-        case KEYCODE.PLAY:
-        case KEYCODE.PLAY_TV:
-          if ($video.paused) {
-            $video.play();
-          }
-          this.controls = true;
-          break;
-
-        case KEYCODE.RIGHT:
-        case KEYCODE.FFD:
-          this.seek(10);
-          break;
-
-        case KEYCODE.LEFT:
-        case KEYCODE.RWD:
-          this.seek(-10);
-          break;
-
-        case KEYCODE.STOP:
-        case KEYCODE.BACK:
-        case KEYCODE.ESC:
+      if (CODEGROUPS.PLAY_PAUSE.indexOf(ev.keyCode) !== -1) {
+        if ($video.paused) {
+          $video.play();
+        } else {
+          $video.pause();
+        }
+      } else if (CODEGROUPS.PLAY.indexOf(ev.keyCode) !== -1) {
+        if ($video.paused) {
+          $video.play();
+        }
+        /*
+          Force controls to display even if we were already playing.
+          This is a nice feature to check your current video time
+          without pausing.
+        */
+        this.controls = true;
+      } else if (CODEGROUPS.FFD.indexOf(ev.keyCode) !== -1) {
+        this.seek(10);
+      } else if (CODEGROUPS.RWD.indexOf(ev.keyCode) !== -1) {
+        this.seek(-10);
+      } else if (CODEGROUPS.STOP.indexOf(ev.keyCode) !== -1) {
           this.hide();
-          break;
-
-        default:
-          console.log('Unknown keyCode:', ev.keyCode);
-          break;
+      } else {
+        console.log('Unknown keyCode:', ev.keyCode);
       }
     },
   },

@@ -31,6 +31,10 @@ export default {
     axios.get(utils.urlJoin(API_URL, '/channels/'))
       .then(r => this.channels = r.data.results)
       .catch(console.error);
+    // Select the first video once our data is rendered.
+    document.arrive('div.video', { onceOnly: true }, (el) => {
+        this.$errokees.select(el);
+    });
   },
 }
 </script>

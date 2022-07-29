@@ -9,6 +9,7 @@ const KEYCODE = {
   FFD: 228,
   RWD: 227,
   STOP: 169,
+  STOP_TV: 413,
   CHANUP: 33,
   CHANDN: 34,
   RIGHT: 39,

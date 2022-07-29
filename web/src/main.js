@@ -2,6 +2,7 @@ import Vue from "vue";
 import Errokees from 'errokees';
 import Buefy from 'buefy';
 import smoothscroll from 'smoothscroll-polyfill';
+import 'arrive';
 import '@procot/webostv';
 import '@/assets/theme.scss'
 import '@mdi/font/css/materialdesignicons.css';
