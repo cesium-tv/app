@@ -1,36 +1,14 @@
 <template>
   <div ref="row">
     <p
-        class="title channel-name is-3 has-text-light"
+      class="title channel-name is-3 has-text-light"
     >{{ channel.name }}</p>
     <div class="row">
-      <div
-        class="card has-background-dark errokees-selectable video"
-        data-ek-activate-event-name="errokees:activate"
+      <GridItem
         v-for="(video, i) in videos"
         :key="i"
-        :id="`video-${video.uid}`"
-        @errokees:activate="$bus.$emit('video:play', video)"
-        @errokees:selected="scrollTop(video.uid)"
-      >
-        <div class="card-image">
-            <figure>
-                <img
-                    class="poster"
-                    :src="video.poster"
-                    style="width: 320px"
-                />
-            </figure>
-        </div>
-        <div class="card-content">
-          <div class="content">
-            <p
-                class="title is-6 has-text-light"
-                style=""
-            >{{ video.title }}</p>
-          </div>
-        </div>
-      </div>
+        :video="video"
+      />
       <div
         v-if="videos && videos.length > 5"
         class="card has-background-dark errokees-selectable return"
@@ -57,9 +35,14 @@
 import axios from 'axios';
 import { API_URL } from '@/config';
 import utils from '@/utils';
+import GridItem from '@/components/GridItem';
 
 export default {
   name: 'GridRow',
+
+  components: {
+    GridItem,
+  },
 
   props: {
     channel: {
@@ -81,25 +64,6 @@ export default {
   },
 
   methods: {
-    scrollTop(id) {
-      /*
-      NOTE: scrollIntoView() is broken on webOS. Also, it is not quite what we
-      want since we want the row top vs. the video left.
-      */
-      const row = this.$refs.row;
-      const vid = document.getElementById(`video-${id}`);
-      const top = row.offsetTop, rowWidth = row.offsetWidth;
-      const left = vid.offsetLeft, vidWidth = vid.offsetWidth;
-      row.parentNode.scrollTo({
-        behavior: 'smooth',
-        top,
-      });
-      vid.parentNode.scrollTo({
-        behavior: 'smooth',
-        left: (left + (vidWidth / 4)) - (rowWidth / 2),
-      });
-    },
-
     onReturn() {
       const div = this.$refs.row.children[1].firstChild;
       this.$errokees.select(div);
@@ -114,27 +78,11 @@ export default {
   margin-bottom: 10px
 }
 
-.video {
-  min-width: 480px;
-  max-width: 480px;
-  height: 400px;
-  margin: 4px;
-}
-
 .return {
   min-width: 72px;
   max-width: 72px;
   height: 400px;
   margin: 4px;
-}
-
-.title {
-  max-height: 128px;
-  text-overflow: ellipsis;
-}
-
-.poster {
-  min-width: 476;
 }
 
 .row {
