@@ -1,4 +1,4 @@
-const API_URL = 'http://192.168.1.101:8000/api/v1/';
+const API_URL = 'http://cesium.tv/api/v1/';
 
 const KEYCODE = {
   BACK: 461,

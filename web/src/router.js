@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
+import Login from '@/views/Login';
 import Home from '@/views/Home';
 import Subscriptions from '@/views/Subscriptions';
 import Search from '@/views/Search';
@@ -13,6 +14,11 @@ export default new Router({
       path: '/',
       name: 'home',
       component: Home,
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: Login,
     },
     {
       path: '/subscriptions',

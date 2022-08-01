@@ -28,6 +28,22 @@
           >
             <b-menu-list>
               <b-menu-item
+                icon="login"
+                label="Login"
+                tag="router-link"
+                to="/login"
+              ></b-menu-item>
+            </b-menu-list>
+          </div>
+          <div
+            @errokees:selected="onMenuSelected"
+            @errokees:deselected="onMenuDeselected"
+            data-ek-activate-event-name="click"
+            data-ek-activate-event-target="a"
+            class="errokees-selectable"
+          >
+            <b-menu-list>
+              <b-menu-item
                 icon="home"
                 label="Home"
                 tag="router-link"
