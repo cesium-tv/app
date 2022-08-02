@@ -1,24 +1,19 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import Login from '@/views/Login';
 import Home from '@/views/Home';
 import Subscriptions from '@/views/Subscriptions';
 import Search from '@/views/Search';
 import Settings from '@/views/Settings';
+import store from './store';
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   routes: [
     {
       path: '/',
       name: 'home',
       component: Home,
-    },
-    {
-      path: '/login',
-      name: 'login',
-      component: Login,
     },
     {
       path: '/subscriptions',
@@ -36,4 +31,14 @@ export default new Router({
       component: Settings,
     },
   ]
-})
+});
+
+router.beforeEach((to, from, next) => {
+  if (!store.isAuthenticated && to.path !== '/') {
+    next('/');
+    return;
+  }
+  next();
+});
+
+export default router;

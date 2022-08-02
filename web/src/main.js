@@ -8,6 +8,7 @@ import '@/assets/theme.scss'
 import '@mdi/font/css/materialdesignicons.css';
 import App from "./App.vue";
 import router from "./router";
+import store from './store'
 
 smoothscroll.polyfill();
 
@@ -47,7 +48,17 @@ Vue.use(Buefy);
 
 new Vue({
   router,
-  render: function(h) {
+  store,
+
+  render(h) {
     return h(App);
+  },
+
+  beforeCreate() {
+    let token = localStorage.getItem('cesium.tv-token');
+    if (token) {
+      token = JSON.parse(token);
+    }
+    this.$store.dispatch('whoami', token).catch(console.error);
   },
 }).$mount("#app");

@@ -61,11 +61,16 @@ export default {
         time: null,
         duration: null,
       },
+      details: null,
       eventHandlers: {},
     };
   },
 
   mounted() {
+    this.$store.dispatch('getVideoDetails', { video_id: this.value.shortUUID })
+      .then(r => this.details = r)
+      .catch(e => console.error);
+
     const $video = this.$refs.video;
 
     this.eventHandlers = {
@@ -124,26 +129,19 @@ export default {
   },
 
   computed: {
-    dimension() {
-      if (!this.value) {
+    source() {
+      if (!this.details) {
         return;
       }
 
       const dimensions = [];
-      Object.entries(this.value.sources).forEach(entry =>{
-        const [dimension, source] = entry;
-        dimensions.push([source.height, dimension]);
+      this.details.files.forEach(entry => {
+        const dimension = entry.resolution.id;
+        dimensions.push([entry.resolution.id, entry]);
       });
-      dimensions.sort((a, b) => (b[0] - a[0]))
-      return dimensions[0][1];
-    },
+      dimensions.sort((a, b) => (b[0] - a[0]));
 
-    source() {
-      if (!this.value) {
-        return;
-      }
-
-      return this.value.sources[this.dimension].url;
+      return dimensions[0][1].fileUrl;
     },
   },
 

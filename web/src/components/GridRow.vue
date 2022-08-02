@@ -2,7 +2,7 @@
   <div ref="row">
     <p
       class="title channel-name is-3 has-text-light"
-    >{{ channel.name }}</p>
+    >{{ channel.displayName }}</p>
     <div class="row">
       <GridItem
         v-for="(video, i) in videos"
@@ -32,9 +32,6 @@
 </template>
 
 <script>
-import axios from 'axios';
-import { API_URL } from '@/config';
-import utils from '@/utils';
 import GridItem from '@/components/GridItem';
 
 export default {
@@ -54,13 +51,15 @@ export default {
   data() {
     return {
       videos: null,
-    }
+    };
   },
 
   mounted() {
-    axios.get(utils.urlJoin(API_URL, '/videos/', {channel: this.channel.uid}))
-      .then(r => this.videos = r.data.results)
-      .catch(console.error);
+    this.$store.dispatch('updateVideos', { channel_id: this.channel.name })
+      .then(() => {
+        this.videos = this.$store.getters.videos[this.channel.name];
+      })
+      .catch(e => console.error);
   },
 
   methods: {

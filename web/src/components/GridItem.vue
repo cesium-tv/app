@@ -10,7 +10,7 @@
       <figure>
         <img
           class="poster"
-          :src="video.poster"
+          :src="previewUrl"
           style="width: 320px"
         />
       </figure>
@@ -20,13 +20,16 @@
         <p
           class="title is-6 has-text-light"
           style=""
-        >{{ video.title }}</p>
+        >{{ video.name }}</p>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { API_URL } from '@/config';
+import utils from '@/utils';
+
 export default {
   name: "GridItem",
   
@@ -34,8 +37,15 @@ export default {
     video: {
       type: Object,
       default: {
-
+        name: null,
+        previewPath: null,
       },
+    },
+  },
+
+  computed: {
+    previewUrl() {
+      return utils.urlJoin(`http://${this.video.channel.host}`, this.video.previewPath);
     },
   },
 

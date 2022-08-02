@@ -28,22 +28,6 @@
           >
             <b-menu-list>
               <b-menu-item
-                icon="login"
-                label="Login"
-                tag="router-link"
-                to="/login"
-              ></b-menu-item>
-            </b-menu-list>
-          </div>
-          <div
-            @errokees:selected="onMenuSelected"
-            @errokees:deselected="onMenuDeselected"
-            data-ek-activate-event-name="click"
-            data-ek-activate-event-target="a"
-            class="errokees-selectable"
-          >
-            <b-menu-list>
-              <b-menu-item
                 icon="home"
                 label="Home"
                 tag="router-link"
@@ -99,6 +83,21 @@
               ></b-menu-item>
             </b-menu-list>
           </div>
+          <div
+            @errokees:selected="onMenuSelected"
+            @errokees:deselected="onMenuDeselected"
+            data-ek-activate-event-name="click"
+            data-ek-activate-event-target="a"
+            class="errokees-selectable"
+          >
+            <b-menu-list>
+              <b-menu-item
+                icon="logout"
+                label="Logout"
+                @click="logout"
+              ></b-menu-item>
+            </b-menu-list>
+          </div>
         </b-menu>
       </div>
     </b-sidebar>
@@ -125,7 +124,12 @@ export default {
 
     onMenuDeselected() {
       this.reduce = true;
-    }
+    },
+
+    logout() {
+      this.$store.dispatch('logout');
+      this.$router.push('/');
+    },
   },
 };
 </script>

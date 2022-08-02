@@ -9,10 +9,8 @@
 </template>
 
 <script>
-import axios from 'axios';
+import { mapGetters } from 'vuex';
 import GridRow from '@/components/GridRow';
-import { API_URL } from '@/config';
-import utils from '@/utils';
 
 export default {
   name: 'Grid',
@@ -23,14 +21,16 @@ export default {
 
   data () {
     return {
-      channels: null,
     }
   },
 
+  computed: {
+    ...mapGetters(['channels']),
+  },
+
   mounted() {
-    axios.get(utils.urlJoin(API_URL, '/channels/'))
-      .then(r => this.channels = r.data.results)
-      .catch(console.error);
+    this.$store.dispatch('updateChannels')
+      .catch(e => console.error);
     // Select the first video once our data is rendered.
     document.arrive('div.video', { onceOnly: true }, (el) => {
         this.$errokees.select(el);
