@@ -12,24 +12,28 @@ import store from './store'
 
 smoothscroll.polyfill();
 
-// function handleError() {
-//   const message = arguments.map(o => o.toString()).join('\r\n');
+function handleError() {
+  let messages = []
+  for (let i = 0; i < arguments.length; i++) {
+    messages.push(arguments[i].toString());
+  }
+  messages = messages.join('\r\n');
 
-//   document.getElementsByTagName('body').innerHTML = 
-//   '<div style="width: 100%; height: 100%; background-color: black;">'
-//   '<pre style="color: white;">' + message + '</pre>'
-//   '</div>';
-// }
+  document.documentElement.innerHTML =
+    '<div style="width: 100%; height: 100%; background-color: black;">' +
+    '<pre style="background-color: black; color: blue;">' + messages + '</pre>' +
+    '</div>';
+}
 
-// window.onerror = function(msg, url, line, col, error) {
-//   console.error(msg, url, line, col, error);
-//   handleError(msg, line, col, error);
-// }
+window.onerror = function(msg, url, line, col, error) {
+  //console.error(msg, url, line, col, error);
+  handleError(url, msg, 'Line: ' + line, 'Col: ' + col);
+}
 
-// window.addEventListener('unhandledrejection', function(event) {
-//   console.error(event);
-//   handleError(event.promise, event.reason);
-// });
+window.addEventListener('unhandledrejection', function(event) {
+  //console.error(event);
+  handleError(event.promise, event.reason);
+});
 
 Vue.config.productionTip = false;
 Vue.prototype.$bus = new Vue();
