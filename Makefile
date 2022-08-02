@@ -42,7 +42,7 @@ dev:
 .PHONY: run
 run: image install-tv
 	ares-launch --device=${TV} ${APP}
-	${DOCKER} run -ti --net=host web:latest
+	${DOCKER} run -ti -p 8080:80 web:latest
 
 
 .PHONY: install-tv
@@ -58,7 +58,7 @@ install-emu: build
 .PHONY: emu
 emu: image install-emu
 	ares-launch --device=${EMU} ${APP}
-	${DOCKER} run -ti --net=host web:latest
+	${DOCKER} run -ti -p 8080:80 web:latest
 
 
 .PHONY: debug
