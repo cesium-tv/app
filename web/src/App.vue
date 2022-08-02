@@ -46,9 +46,6 @@ export default {
 
   computed: {
     ...mapGetters(['isAuthenticated']),
-    isAuthenticated() {
-      return false;
-    }
   },
 
   mounted() {

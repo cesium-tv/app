@@ -1,6 +1,7 @@
 <template>
   <b-modal
     :active="true"
+    :can-cancel="false"
   >
     <form>
       <header class="modal-card-head">
