@@ -2,7 +2,7 @@
   <div ref="row">
     <p
       class="title channel-name is-3 has-text-light"
-    >{{ channel.displayName }}</p>
+    >{{ channel.name }}</p>
     <div class="row">
       <GridItem
         v-for="(video, i) in videos"
@@ -55,9 +55,9 @@ export default {
   },
 
   mounted() {
-    this.$store.dispatch('updateVideos', { channel_id: this.channel.name })
+    this.$store.dispatch('updateVideos', { channel_uid: this.channel.uid })
       .then(() => {
-        this.videos = this.$store.getters.videos[this.channel.name];
+        this.videos = this.$store.getters.videos[this.channel.uid];
       })
       .catch(e => console.error);
   },

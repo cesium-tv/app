@@ -14,12 +14,13 @@
         <div class="logo">
           <img
             id="logo"
-            :src="icon"
             alt="Video player"
           />
         </div>
         <b-menu>
           <div
+            v-for="item in menu"
+            :key="item.name"
             @errokees:selected="onMenuSelected"
             @errokees:deselected="onMenuDeselected"
             data-ek-activate-event-name="click"
@@ -28,73 +29,10 @@
           >
             <b-menu-list>
               <b-menu-item
-                icon="home"
-                label="Home"
+                :icon="item.icon"
+                :label="item.label"
                 tag="router-link"
-                to="/"
-              ></b-menu-item>
-            </b-menu-list>
-          </div>
-          <div
-            @errokees:selected="onMenuSelected"
-            @errokees:deselected="onMenuDeselected"
-            data-ek-activate-event-name="click"
-            data-ek-activate-event-target="a"
-            class="errokees-selectable"
-          >
-            <b-menu-list>
-              <b-menu-item
-                icon="magnify"
-                label="Search"
-                tag="router-link"
-                to="/search"
-              ></b-menu-item>
-            </b-menu-list>
-          </div>
-          <div
-            @errokees:selected="onMenuSelected"
-            @errokees:deselected="onMenuDeselected"
-            data-ek-activate-event-name="click"
-            data-ek-activate-event-target="a"
-            class="errokees-selectable"
-          >
-            <b-menu-list>
-              <b-menu-item
-                icon="cog-outline"
-                label="Settings"
-                tag="router-link"
-                to="/settings"
-              ></b-menu-item>
-            </b-menu-list>
-          </div>
-          <div
-            @errokees:selected="onMenuSelected"
-            @errokees:deselected="onMenuDeselected"
-            data-ek-activate-event-name="click"
-            data-ek-activate-event-target="a"
-            class="errokees-selectable"
-          >
-            <b-menu-list>
-              <b-menu-item
-                icon="key-outline"
-                label="Accounts"
-                tag="router-link"
-                to="/subscriptions"
-              ></b-menu-item>
-            </b-menu-list>
-          </div>
-          <div
-            @errokees:selected="onMenuSelected"
-            @errokees:deselected="onMenuDeselected"
-            data-ek-activate-event-name="click"
-            data-ek-activate-event-target="a"
-            class="errokees-selectable"
-          >
-            <b-menu-list>
-              <b-menu-item
-                icon="logout"
-                label="Logout"
-                @click="logout"
+                :to="item.to"
               ></b-menu-item>
             </b-menu-list>
           </div>
@@ -105,14 +43,54 @@
 </template>
 
 <script>
-import icon from '@/assets/icon.png';
+const MENU = {
+  options: {
+    icon: "cog",
+    label: "Options",
+    to: "/options",
+  },
+  subscriptions: {
+    icon: "account-star",
+    label: "Subsciptions",
+    to: "/subscriptions",
+  },
+  again: {
+    icon: "refresh",
+    label: "Watch Again",
+    to: "/again",
+  },
+  latest: {
+    icon: "clock-alert",
+    label: "Latest",
+    to: "/latest",
+  },
+  oldies: {
+    icon: "clock",
+    label: "Oldest",
+    to: "/oldest",
+  },
+  home: {
+    icon: "home",
+    label: "Home",
+    to: "/",
+  },
+  search: {
+    icon: "magnify",
+    label: "Search",
+    to: "/search",
+  },
+  resume: {
+    icon: "play-pause",
+    label: "Resume",
+    to: "/resume",
+  },
+};
 
 export default {
   name: 'Sidebar',
 
   data() {
     return {
-      icon,
       reduce: true,
     };
   },
@@ -130,6 +108,18 @@ export default {
       this.$store.dispatch('logout');
       this.$router.push('/');
     },
+  },
+
+  computed: {
+    menu() {
+      const menu = [];
+
+      window.CesiumTheme.menu.forEach(name => {
+        menu.push(MENU[name]);
+      });
+
+      return menu;
+    }
   },
 };
 </script>
@@ -160,7 +150,7 @@ export default {
 
 .b-sidebar {
     .sidebar-content {
-      width: 132px;
+      width: 148px;
         &.is-mini {
           width: 48px;
             &:not(.is-mini-expand),

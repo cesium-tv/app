@@ -9,7 +9,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
 import GridRow from '@/components/GridRow';
 
 export default {
@@ -25,7 +24,15 @@ export default {
   },
 
   computed: {
-    ...mapGetters(['channels']),
+    channels() {
+      const channels = this.$store.getters['channels'];
+
+      if (!channels) {
+        return;
+      }
+
+      return channels.filter(c => c.videos);
+    }
   },
 
   mounted() {

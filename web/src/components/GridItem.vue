@@ -10,25 +10,28 @@
       <figure>
         <img
           class="poster"
-          :src="previewUrl"
-          style="width: 320px"
+          :src="video.poster"
         />
       </figure>
     </div>
     <div class="card-content">
       <div class="content">
         <p
-          class="title is-6 has-text-light"
-          style=""
-        >{{ video.name }}</p>
+          class="title is-4 has-text-light"
+        >{{ video.title }}</p>
+        <p
+          class="duration"
+        >{{ duration }}</p>
+        <p
+          class="published"
+        >{{ published }}</p>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { API_URL } from '@/config';
-import utils from '@/utils';
+import moment from 'moment';
 
 export default {
   name: "GridItem",
@@ -44,9 +47,13 @@ export default {
   },
 
   computed: {
-    previewUrl() {
-      return utils.urlJoin(`http://${this.video.channel.host}`, this.video.previewPath);
+    duration() {
+      return moment.duration(this.video.duration, 'seconds').humanize();
     },
+
+    published() {
+      return moment(this.video.published).fromNow();
+    }
   },
 
   methods: {
@@ -85,7 +92,12 @@ export default {
   text-overflow: ellipsis;
 }
 
+.duration {
+  float: right;
+}
+
 .poster {
+  width: 320px;
   min-width: 476;
 }
 

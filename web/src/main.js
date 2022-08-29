@@ -12,28 +12,28 @@ import store from './store'
 
 smoothscroll.polyfill();
 
-function handleError() {
-  let messages = []
-  for (let i = 0; i < arguments.length; i++) {
-    messages.push(arguments[i].toString());
-  }
-  messages = messages.join('\r\n');
+// function handleError() {
+//   let messages = []
+//   for (let i = 0; i < arguments.length; i++) {
+//     messages.push(arguments[i].toString());
+//   }
+//   messages = messages.join('\r\n');
 
-  document.documentElement.innerHTML =
-    '<div style="width: 100%; height: 100%; background-color: black;">' +
-    '<pre style="background-color: black; color: blue;">' + messages + '</pre>' +
-    '</div>';
-}
+//   document.documentElement.innerHTML =
+//     '<div style="width: 100%; height: 100%; background-color: black;">' +
+//     '<pre style="background-color: black; color: blue;">' + messages + '</pre>' +
+//     '</div>';
+// }
 
-window.onerror = function(msg, url, line, col, error) {
-  //console.error(msg, url, line, col, error);
-  handleError(url, msg, 'Line: ' + line, 'Col: ' + col);
-}
+// window.onerror = function(msg, url, line, col, error) {
+//   //console.error(msg, url, line, col, error);
+//   handleError(url, msg, 'Line: ' + line, 'Col: ' + col);
+// }
 
-window.addEventListener('unhandledrejection', function(event) {
-  //console.error(event);
-  handleError(event.promise, event.reason);
-});
+// window.addEventListener('unhandledrejection', function(event) {
+//   //console.error(event);
+//   handleError(event.promise, event.reason);
+// });
 
 Vue.config.productionTip = false;
 Vue.prototype.$bus = new Vue();

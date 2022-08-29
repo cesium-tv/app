@@ -11,6 +11,7 @@ export default new Vuex.Store({
     auth: null,
     channels: null,
     videos: {},
+    options: null,
   },
 
   getters: {
@@ -47,9 +48,9 @@ export default new Vuex.Store({
       state.channels = channels;
     },
 
-    SET_VIDEOS(state, { channel_id, videos }) {
-      state.videos[channel_id] = videos;
-    },
+    SET_VIDEOS(state, { channel_uid, videos }) {
+      state.videos[channel_uid] = videos;
+    }
   },
 
   actions: {
@@ -95,18 +96,21 @@ export default new Vuex.Store({
     },
 
     async updateChannels({ commit }) {
-      let r = await axios.get(utils.urlJoin(API_URL, '/video-channels/'));
-      commit('SET_CHANNELS', r.data.data);
+      let r = await axios.get(utils.urlJoin(API_URL, '/channels/'));
+      commit('SET_CHANNELS', r.data.results);
     },
 
-    async updateVideos({ commit }, { channel_id }) {
-      let r = await axios.get(utils.urlJoin(API_URL, `/video-channels/${channel_id}/videos/`));
-      commit('SET_VIDEOS', { channel_id, videos: r.data.data });
+    async updateVideos({ commit }, { channel_uid }) {
+      let r = await axios.get(
+        utils.urlJoin(API_URL, `/videos/`),
+        { params: { 'channel': channel_uid }}
+      );
+      commit('SET_VIDEOS', { channel_uid, videos: r.data.results });
     },
 
     async getVideoDetails(_, { video_id }) {
       let r = await axios.get(utils.urlJoin(API_URL, `/videos/${video_id}/`));
       return r.data;
-    },
+    }
   },
 })

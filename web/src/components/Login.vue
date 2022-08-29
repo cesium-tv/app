@@ -41,7 +41,7 @@
       </section>
       <footer class="modal-card-foot">
         <button
-          class="button is-info"
+          class="button is-info errokees-selectable"
           @click.prevent="login"
         >Login</button>
       </footer>
@@ -77,7 +77,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 .modal-card {
   margin: 0 auto;
   margin-top: 80px;
@@ -86,5 +86,13 @@ export default {
 
 #logo {
   margin-right: 30px;
+}
+
+.errokees-selectable {
+  border: 2px solid transparent;
+}
+
+.errokees-selected {
+  border: 2px solid hsl(204, 86%, 53%);;
 }
 </style>

@@ -1,8 +1,6 @@
 <template>
   <div>
-    <div
-      v-if="isAuthenticated"
-    >
+    <div>
       <section class="sidebar-layout">
         <Sidebar/>
         <router-view/>
@@ -15,7 +13,7 @@
       />
       <Loading/>
     </div>
-    <Login v-if="isAuthenticated === false"/>
+    <!--<Login v-if="isAuthenticated === false"/>-->
   </div>
 </template>
 
@@ -63,7 +61,4 @@ export default {
 </script>
 
 <style>
-body {
-  background-color: black;
-}
 </style>

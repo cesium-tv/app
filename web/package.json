@@ -17,6 +17,7 @@
     "core-js": "^3.6.5",
     "debug": "^4.3.2",
     "errokees": "^0.2.8",
+    "moment": "^2.29.4",
     "sass": "^1.53.0",
     "screenfull": "^5.2.0",
     "smoothscroll-polyfill": "^0.4.4",
