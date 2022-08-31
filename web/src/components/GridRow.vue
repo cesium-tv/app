@@ -96,6 +96,6 @@ export default {
 }
 
 .errokees-selected {
-  border: 2px solid hsl(204, 86%, 53%);;
+  border: 2px solid var(--act-color);
 }
 </style>

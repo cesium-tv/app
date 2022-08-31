@@ -12,6 +12,12 @@
           class="poster"
           :src="video.poster"
         />
+        <b-button
+          icon-left="play"
+          size="is-large"
+          rounded
+          class="play-button"
+        ></b-button>
       </figure>
     </div>
     <div class="card-content">
@@ -20,10 +26,10 @@
           class="title is-4 has-text-light"
         >{{ video.title }}</p>
         <p
-          class="duration"
+          class="duration has-text-light"
         >{{ duration }}</p>
         <p
-          class="published"
+          class="published has-text-light"
         >{{ published }}</p>
       </div>
     </div>
@@ -101,11 +107,16 @@ export default {
   min-width: 476;
 }
 
-.errokees-selectable {
-  border: 2px solid transparent;
+.play-button {
+  position: absolute;
+  z-index: 1000;
+  margin-left: -262px;
+  margin-top: 120px;
+  color: var(--act-color);
+  display: none;
 }
 
-.errokees-selected {
-  border: 2px solid hsl(204, 86%, 53%);;
+.errokees-selected .play-button {
+  display: inline;
 }
 </style>

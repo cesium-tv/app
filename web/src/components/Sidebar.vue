@@ -126,8 +126,8 @@ export default {
 
 <style lang="scss">
 .errokees-selected ul li a {
-  background-color: hsl(204, 86%, 53%);
-  color: hsl(0, 0%, 100%);
+  background-color: var(--act-color);
+  color: var(--fg-color);
 }
 
 .logo {
