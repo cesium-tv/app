@@ -1,4 +1,6 @@
 const API_URL = 'http://cesium.tv:8000/api/v1/';
+const CLIENT_ID = '19bbc55f-0f6f-4fca-95bc-f86286db43da';
+const CLIENT_SECRET = '50ec237f-20b0-4a47-8a25-b329f6d53beb';
 
 const KEYCODE = {
   BACK: 461,
@@ -29,6 +31,8 @@ const STATUS = {
 
 export {
   API_URL,
+  CLIENT_ID,
+  CLIENT_SECRET,
   KEYCODE,
   STATUS,
 };

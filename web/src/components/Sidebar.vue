@@ -84,6 +84,11 @@ const MENU = {
     label: "Resume",
     to: "/resume",
   },
+  login: {
+    icon: "login",
+    label: "Login",
+    to: "/login",
+  }
 };
 
 export default {

@@ -4,6 +4,7 @@ import Home from '@/views/Home';
 import Subscriptions from '@/views/Subscriptions';
 import Search from '@/views/Search';
 import Settings from '@/views/Settings';
+import Login from '@/views/Login';
 import store from './store';
 
 Vue.use(Router)
@@ -30,12 +31,17 @@ const router = new Router({
       name: 'settings',
       component: Settings,
     },
+    {
+      path: '/login',
+      name: 'login',
+      component: Login,
+    },
   ]
 });
 
 router.beforeEach((to, from, next) => {
-  if (!store.isAuthenticated && to.path !== '/') {
-    next('/');
+  if (!store.isAuthenticated && to.path !== '/login') {
+    next('/login');
     return;
   }
   next();
