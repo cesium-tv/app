@@ -1,7 +1,7 @@
 <template>
   <div ref="row">
     <p
-      class="title channel-name is-3 has-text-light"
+      class="title channel-name is-3 has-text-dark"
     >{{ channel.name }}</p>
     <div class="row">
       <GridItem
@@ -18,6 +18,7 @@
         <div class="card-image">
           <figure class="image is-centered is-vcentered">
             <b-icon
+              class="ml-2"
               style="margin-top: 176px"
               icon="arrow-u-left-bottom"
               size="is-large"
@@ -92,10 +93,10 @@ export default {
 }
 
 .errokees-selectable {
-  border: 2px solid transparent;
+  border: solid 2px transparent;
 }
 
 .errokees-selected {
-  border: 2px solid var(--act-color);
+  border: solid 2px var(--primary);
 }
 </style>

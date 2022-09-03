@@ -4,7 +4,6 @@ import Buefy from 'buefy';
 import smoothscroll from 'smoothscroll-polyfill';
 import 'arrive';
 import '@procot/webostv';
-import '@/assets/theme.scss'
 import '@mdi/font/css/materialdesignicons.css';
 import App from "./App.vue";
 import router from "./router";

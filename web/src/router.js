@@ -40,7 +40,7 @@ const router = new Router({
 });
 
 router.beforeEach((to, from, next) => {
-  if (!store.isAuthenticated && to.path !== '/login') {
+  if (CesiumTheme.auth_required && !store.isAuthenticated && to.path !== '/login') {
     next('/login');
     return;
   }

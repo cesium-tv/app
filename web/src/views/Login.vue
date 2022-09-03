@@ -23,7 +23,7 @@ export default {
 
   computed: {
     componentName() {
-      return AUTH_TYPES[window.CesiumTheme.auth];
+      return AUTH_TYPES[window.CesiumTheme.auth_method];
     },
   },
 }

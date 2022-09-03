@@ -119,7 +119,7 @@ export default {
     menu() {
       const menu = [];
 
-      window.CesiumTheme.menu.forEach(name => {
+      CesiumTheme.menu.forEach(name => {
         menu.push(MENU[name]);
       });
 
@@ -131,8 +131,8 @@ export default {
 
 <style lang="scss">
 .errokees-selected ul li a {
-  background-color: var(--act-color);
-  color: var(--fg-color);
+  background-color: var(--scheme-main);
+  color: var(--primary);
 }
 
 .logo {

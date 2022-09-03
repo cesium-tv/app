@@ -15,6 +15,7 @@
         <b-button
           icon-left="play"
           size="is-large"
+          type="is-primary"
           rounded
           class="play-button"
         ></b-button>
@@ -112,8 +113,15 @@ export default {
   z-index: 1000;
   margin-left: -262px;
   margin-top: 120px;
-  color: var(--act-color);
   display: none;
+}
+
+.errokees-selectable {
+  border: solid 2px transparent;
+}
+
+.errokees-selected {
+  border: solid 2px var(--primary);
 }
 
 .errokees-selected .play-button {

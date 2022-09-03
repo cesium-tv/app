@@ -3,7 +3,7 @@
     <b-slider
       rounded
       size="is-large"
-      type="is-info"
+      type="is-primary"
       :value="progress"
     >
     </b-slider>

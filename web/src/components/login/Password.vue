@@ -1,31 +1,39 @@
 <template>
-  <div>
-    <section>
-      <form
-        @submit="onLogin"
-      >
-        <b-field
-          label="Username"
-          type="is-success"
-          message="This username is available"
-        >
-          <b-input
-            v-model="form.username"
-            maxlength="30"
-          ></b-input>
-        </b-field>
+  <div class="columns">
+    <div class="column is-half is-offset-one-quarter">
+      <div class="card mt-6">
+        <header class="card-header has-background-grey-dark has-text-grey">
+          <p class="card-header-title has-text-grey">Login</p>
+        </header>
+        <div class="card-content">
+          <form
+            @submit="onLogin"
+          >
+            <b-field
+              label="Username"
+            >
+              <b-input
+                class="errokees-selectable"
+                v-model="form.username"
+                maxlength="30"
+              ></b-input>
+            </b-field>
 
-        <b-field label="Password">
-          <b-input
-            v-model="form.password"
-            type="password"
-            password-reveal
-          ></b-input>
-        </b-field>
-
-        <b-button type="is-primary">Login</b-button>
-      </form>
-    </section>
+            <b-field label="Password">
+              <b-input
+                class="errokees-selectable"
+                v-model="form.password"
+                type="password"
+              ></b-input>
+            </b-field>
+            <b-button
+              class="mt-4 errokees-selectable"
+              type="is-dark"
+            >Login</b-button>
+          </form>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -63,5 +71,11 @@ export default {
 </script>
 
 <style scoped>
+.errokees-selected input {
+  color: var(--primary);
+}
 
+.errokees-selected > button {
+  background-color: var(--primary);
+}
 </style>
