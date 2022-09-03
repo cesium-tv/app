@@ -1,10 +1,10 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import Home from '@/views/Home';
 import Subscriptions from '@/views/Subscriptions';
 import Search from '@/views/Search';
 import Settings from '@/views/Settings';
 import Login from '@/views/Login';
+import Listing from '@/views/Listing';
 import store from './store';
 
 Vue.use(Router)
@@ -14,7 +14,7 @@ const router = new Router({
     {
       path: '/',
       name: 'home',
-      component: Home,
+      component: Listing,
     },
     {
       path: '/subscriptions',
@@ -36,8 +36,15 @@ const router = new Router({
       name: 'login',
       component: Login,
     },
+    {
+      path: '/resume',
+      name: 'Resume',
+      component: Listing,
+    },
   ]
 });
+
+router.replace({ name: CesiumTheme.default_menu_item});
 
 router.beforeEach((to, from, next) => {
   if (CesiumTheme.auth_required && !store.isAuthenticated && to.path !== '/login') {

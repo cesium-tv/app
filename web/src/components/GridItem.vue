@@ -1,7 +1,7 @@
 <template>
   <div
     ref="video"
-    class="card has-background-dark errokees-selectable video"
+    class="card is-shadowless errokees-selectable video"
     data-ek-activate-event-name="errokees:activate"
     @errokees:activate="$bus.$emit('video:play', video)"
     @errokees:selected="scrollTop()"
@@ -24,13 +24,13 @@
     <div class="card-content">
       <div class="content">
         <p
-          class="title is-4 has-text-light"
+          class="title is-4 has-text-dark"
         >{{ video.title }}</p>
         <p
-          class="duration has-text-light"
+          class="duration has-text-dark"
         >{{ duration }}</p>
         <p
-          class="published has-text-light"
+          class="published has-text-dark"
         >{{ published }}</p>
       </div>
     </div>

@@ -119,8 +119,12 @@ export default {
     menu() {
       const menu = [];
 
-      CesiumTheme.menu.forEach(name => {
-        menu.push(MENU[name]);
+      CesiumTheme.menu.forEach(o => {
+        const menuItem = MENU[o.name];
+        if (o.title) {
+          menuItem.label = o.title;
+        }
+        menu.push(menuItem);
       });
 
       return menu;

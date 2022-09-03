@@ -1,9 +1,9 @@
 <template>
   <div id="grid">
     <GridRow
-      v-for="(channel, i) in channels"
+      v-for="(category, i) in categories"
       :key="i"
-      :channel="channel"
+      :category="category"
     />
   </div>  
 </template>
@@ -18,26 +18,15 @@ export default {
     GridRow,
   },
 
-  data () {
-    return {
-    }
-  },
 
-  computed: {
-    channels() {
-      const channels = this.$store.getters['channels'];
-
-      if (!channels) {
-        return;
-      }
-
-      return channels.filter(c => c.videos);
+  props: {
+    categories: {
+      type: Array,
+      default: null,
     }
   },
 
   mounted() {
-    this.$store.dispatch('updateChannels')
-      .catch(e => console.error);
     // Select the first video once our data is rendered.
     document.arrive('div.video', { onceOnly: true }, (el) => {
       this.$errokees.select(el);

@@ -2,16 +2,16 @@
   <div ref="row">
     <p
       class="title channel-name is-3 has-text-dark"
-    >{{ channel.name }}</p>
+    >{{ category.title }}</p>
     <div class="row">
       <GridItem
-        v-for="(video, i) in videos"
+        v-for="(video, i) in category.videos"
         :key="i"
         :video="video"
       />
       <div
-        v-if="videos && videos.length > 5"
-        class="card has-background-dark errokees-selectable return"
+        v-if="category.videos && category.videos.length > 5"
+        class="card errokees-selectable return"
         data-ek-activate-event-name="errokees:activate"
         @errokees:activate="onReturn"
       >
@@ -22,7 +22,7 @@
               style="margin-top: 176px"
               icon="arrow-u-left-bottom"
               size="is-large"
-              type="is-light"
+              type="is-dark"
             >
             </b-icon>
           </figure>
@@ -43,24 +43,10 @@ export default {
   },
 
   props: {
-    channel: {
+    category: {
       type: Object,
       default: null
     }
-  },
-
-  data() {
-    return {
-      videos: null,
-    };
-  },
-
-  mounted() {
-    this.$store.dispatch('updateVideos', { channel_uid: this.channel.uid })
-      .then(() => {
-        this.videos = this.$store.getters.videos[this.channel.uid];
-      })
-      .catch(e => console.error);
   },
 
   methods: {
@@ -68,7 +54,7 @@ export default {
       const div = this.$refs.row.children[1].firstChild;
       this.$errokees.select(div);
     },
-  }
+  },
 }
 </script>
 
