@@ -9,7 +9,8 @@ ASSETS=$(find assets)
 APP=tv.cesium.watch
 
 
-$(ASSETS):
+all:
+	echo "Two build flavors\nex: make bundled or make hosted"
 
 
 sysdeps:
@@ -29,9 +30,6 @@ watch:
 	make -C watch build
 	cp -f watch/dist/index.html .work/index.html
 	cp -fR watch/dist/assets .work/assets 
-
-
-$(BUNDLED)/index.html: watch
 
 
 dist/${APP}_0.0.1_all.ipk: dist
@@ -89,3 +87,4 @@ debug-emu:
 clean:
 	rm -rf dist .work
 	make -C watch clean
+
