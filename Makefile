@@ -83,6 +83,11 @@ debug-emu:
 	ares-inspect --device=${EMU} --open ${APP}
 
 
+.PHONY: update
+update:
+	git submodule update --remote
+
+
 .PHONY: clean
 clean:
 	rm -rf dist .work
