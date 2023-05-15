@@ -10,6 +10,7 @@
   "main": "index.js",
   "dependencies": {
     "@chenfengyuan/vue-qrcode": "^1.0.2",
+    "@creativebulma/bulma-divider": "^1.1.0",
     "@mdi/font": "^6.9.96",
     "@procot/webostv": "^1.2.5",
     "arrive": "^2.4.1",

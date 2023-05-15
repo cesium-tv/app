@@ -16,16 +16,9 @@ export default {
     Grid,
   },
 
-  data() {
-    // The route name informs us how to select videos.
-    return {
-      query: this.$route.name,
-    };
-  },
-
   computed: {
     categories() {
-      switch (this.query) {
+      switch (this.$route.name) {
         case 'home':
           const channels = this.$store.getters['channels'];
 

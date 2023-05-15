@@ -1,7 +1,7 @@
 <template>
   <section>
     <b-sidebar
-      type="is-dark"
+      class="is-shadowless"
       :fullheight="true"
       :fullwidth="false"
       :overlay="false"
@@ -17,7 +17,9 @@
             alt="Video player"
           />
         </div>
-        <b-menu>
+        <b-menu
+          class="is-large"
+        >
           <div
             v-for="item in menu"
             :key="item.name"
@@ -135,8 +137,8 @@ export default {
 
 <style lang="scss">
 .errokees-selected ul li a {
-  background-color: var(--scheme-main);
-  color: var(--primary);
+  background-color: var(--primary);
+  color: var(--white);
 }
 
 .logo {
@@ -159,9 +161,9 @@ export default {
 
 .b-sidebar {
     .sidebar-content {
-      width: 148px;
+      width: 164px;
         &.is-mini {
-          width: 48px;
+          width: 54px;
             &:not(.is-mini-expand),
             &.is-mini-expand:not(.is-mini-delayed) {
                 .menu-list {

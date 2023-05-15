@@ -1,30 +1,26 @@
 <template>
   <div class="columns">
-    <div class="column is-half is-offset-one-quarter">
-      <div class="card mt-6">
-        <header class="card-header">
-          <p class="card-header-title">Login on phone or computer</p>
-        </header>
-        <div class="card-content">
-          <p class="title is-5">On your phone or computer</p>
-          <ol class="ml-5">
-            <li>
-              <p>Go to: <b>{{ verifyUrlShort }}</b></p>
-            </li>
-            <li>
-              <p>Sign in to your account</p>
-            </li>
-            <li>
-              <p>Enter this code: <b>{{ authInfo.user_code }}</b></p>
-            </li>
-          </ol>
-          <p class="title is-5 mt-6">Alternatively, scan the code below on your phone:</p>
-          <VueQrcode
-            :value="verifyUrl"
-            :options="{ width: 200 }"
-          ></VueQrcode>
-        </div>
-      </div>
+    <div class="column is-one-quarter is-offset-one-quarter">
+      <p class="title is-5 mt-6">On your phone or computer</p>
+      <ol class="ml-5">
+        <li>
+          <p>Go to: <b>{{ verifyUrlShort }}</b></p>
+        </li>
+        <li>
+          <p>Sign in to your account</p>
+        </li>
+        <li>
+          <p>Enter this code: <b>{{ authInfo.user_code }}</b></p>
+        </li>
+      </ol>
+    </div>
+    <div class="is-divider-vertical" data-content="OR"></div>
+    <div class="column is-one-quarter has-text-centered">
+      <p class="title is-5 mt-6">Scan the code on your phone:</p>
+      <VueQrcode
+        :value="verifyUrl"
+        :options="{ width: 200 }"
+      ></VueQrcode>
     </div>
   </div>
 </template>
@@ -51,7 +47,7 @@ export default {
     };
   },
 
-  mounted() {
+  beforeCreate() {
     const params = new URLSearchParams();
     params.append('grant_type', 'urn:ietf:params:oauth:grant-type:device_code');
     params.append('client_id', CLIENT_ID);
@@ -64,7 +60,7 @@ export default {
       .catch(console.error);
   },
 
-  unmounted() {
+  beforeDestroy() {
     clearInterval(this.interval);
   },
 
@@ -91,7 +87,15 @@ export default {
 },
 
   methods: {
+    isVisible() {
+      return this.$router.currentRoute.name === 'login';
+    },
+
     onPoll() {
+      if (!this.isVisible()) {
+        return;
+      }
+
       const params = new URLSearchParams();
       params.append('grant_type', 'urn:ietf:params:oauth:grant-type:device_code');
       params.append('client_id', CLIENT_ID);
