@@ -1,13 +1,15 @@
 DOCKER = docker
 VUE_SRC = $(shell find public src)
-WEBOS_SRC = $(shell find app)
 DIST = $(shell find dist)
 TV=livingroom
 EMU=emulator
-APP=tv.cesium.app
+HOSTED=tv.cesium.hosted
+HOSTED_SRC = $(shell find ${HOSTED})
+BUNDLED=tv.cesium.bundled
+WATCH_SRC = $(shell find watch)
 
 
-$(WEBOS_SRC):
+$(HOSTED_SRC):
 
 
 sysdeps:
@@ -17,61 +19,60 @@ sysdeps:
 dist:
 	mkdir dist
 
-
-.PHONY: dist/index.html
-dist/index.html:
-	$(MAKE) -C web build
-
-
-dist/${APP}_0.0.1_all.ipk: dist $(WEBOS_SRC)
-	ares-package app -o dist/
+watch:
+	make -C watch build
+	cp watch/dist/index.html ${BUNDLED}/index.html
+	cp -R watch/dist/assets ${BUNDLED}/assets 
 
 
-build: dist/index.html dist/${APP}_0.0.1_all.ipk
+dist/${HOSTED}_0.0.1_all.ipk: dist $(HOSTED_SRC)
+	ares-package ${HOSTED} -o dist/
 
 
-image: build
-	${DOCKER} build -t web:latest -f docker/web/Dockerfile .
+$(BUNDLED)/index.html: watch
 
 
-.PHONY: dev
-dev:
-	$(MAKE) -C web dev
+dist/${BUNDLED}_0.0.1_all.ipk: dist ${BUNDLED}/index.html
+	ares-package ${BUNDLED} -n -o dist/
+
+
+hosted: dist/${HOSTED}_0.0.1_all.ipk
+
+
+bundled: dist/${BUNDLED}_0.0.1_all.ipk
 
 
 .PHONY: run
 run: image install-tv
-	ares-launch --device=${TV} ${APP}
-	${DOCKER} run -ti -p 8080:80 web:latest
+	ares-launch --device=${TV} ${HOSTED}
 
 
 .PHONY: install-tv
 install-tv: build
-	ares-install --device=${TV} dist/${APP}_0.0.1_all.ipk
+	ares-install --device=${TV} dist/${HOSTED}_0.0.1_all.ipk
 
 
 .PHONY: install-emu
 install-emu: build
-	ares-install --device=${EMU} dist/${APP}_0.0.1_all.ipk
+	ares-install --device=${EMU} dist/${HOSTED}_0.0.1_all.ipk
 
 
 .PHONY: emu
 emu: image install-emu
-	ares-launch --device=${EMU} ${APP}
-	${DOCKER} run -ti -p 8080:80 web:latest
+	ares-launch --device=${EMU} ${HOSTED}
 
 
 .PHONY: debug
 debug:
-	ares-inspect --device=${TV} --open ${APP}
+	ares-inspect --device=${TV} --open ${HOSTED}
 
 
 .PHONY: debug-emu
 debug-emu:
-	ares-inspect --device=${EMU} --open ${APP}
+	ares-inspect --device=${EMU} --open ${HOSTED}
 
 
 .PHONY: clean
 clean:
 	rm -rf dist
-	$(MAKE) -C web clean
+	make -C watch clean

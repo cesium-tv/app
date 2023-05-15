@@ -1,5 +1,5 @@
 {
-  "id": "tv.cesium.app",
+  "id": "tv.cesium.bundled",
   "version": "0.0.1",
   "vendor": "Ben Timby <btimby@gmail.com>",
   "type": "web",

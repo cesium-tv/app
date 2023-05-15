@@ -1,0 +1,13 @@
+{
+  "id": "tv.cesium.hosted",
+  "version": "0.0.1",
+  "vendor": "Ben Timby <btimby@gmail.com>",
+  "type": "web",
+  "main": "index.html",
+  "title": "Cesium",
+  "icon": "icon.png",
+  "largeIcon": "icon_large.png",
+  "splashBackground": "splash.jpg",
+  "iconColor": "474747",
+  "disableBackHistoryAPI": true
+}
