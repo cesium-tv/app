@@ -4,12 +4,12 @@ DIST = $(shell find dist)
 TV=livingroom
 EMU=emulator
 HOSTED=tv.cesium.hosted
-HOSTED_SRC = $(shell find ${HOSTED})
 BUNDLED=tv.cesium.bundled
-WATCH_SRC = $(shell find watch)
+ASSETS=$(find assets)
+APP=tv.cesium.watch
 
 
-$(HOSTED_SRC):
+$(ASSETS):
 
 
 sysdeps:
@@ -17,62 +17,75 @@ sysdeps:
 
 
 dist:
-	mkdir dist
+	mkdir -p dist
 
+
+.work:
+	mkdir -p .work
+
+
+.PHONY: watch
 watch:
 	make -C watch build
-	cp watch/dist/index.html ${BUNDLED}/index.html
-	cp -R watch/dist/assets ${BUNDLED}/assets 
-
-
-dist/${HOSTED}_0.0.1_all.ipk: dist $(HOSTED_SRC)
-	ares-package ${HOSTED} -o dist/
+	cp -f watch/dist/index.html .work/index.html
+	cp -fR watch/dist/assets .work/assets 
 
 
 $(BUNDLED)/index.html: watch
 
 
-dist/${BUNDLED}_0.0.1_all.ipk: dist ${BUNDLED}/index.html
-	ares-package ${BUNDLED} -n -o dist/
+dist/${APP}_0.0.1_all.ipk: dist
+	ares-package .work -n -o dist/
 
 
-hosted: dist/${HOSTED}_0.0.1_all.ipk
+app: dist/tv.cesium.watch_0.0.1_all.ipk
 
 
-bundled: dist/${BUNDLED}_0.0.1_all.ipk
+assets: .work $(ASSETS)
+	cp -R assets/* .work
+
+
+.PHONY: hosted
+hosted: assets
+	make app
+
+
+.PHONY: bundled
+bundled: assets watch
+	make app
 
 
 .PHONY: run
 run: image install-tv
-	ares-launch --device=${TV} ${HOSTED}
+	ares-launch --device=${TV} ${APP}
 
 
 .PHONY: install-tv
 install-tv: build
-	ares-install --device=${TV} dist/${HOSTED}_0.0.1_all.ipk
+	ares-install --device=${TV} dist/${APP}_0.0.1_all.ipk
 
 
 .PHONY: install-emu
 install-emu: build
-	ares-install --device=${EMU} dist/${HOSTED}_0.0.1_all.ipk
+	ares-install --device=${EMU} dist/${APP}_0.0.1_all.ipk
 
 
 .PHONY: emu
 emu: image install-emu
-	ares-launch --device=${EMU} ${HOSTED}
+	ares-launch --device=${EMU} ${APP}
 
 
 .PHONY: debug
 debug:
-	ares-inspect --device=${TV} --open ${HOSTED}
+	ares-inspect --device=${TV} --open ${APP}
 
 
 .PHONY: debug-emu
 debug-emu:
-	ares-inspect --device=${EMU} --open ${HOSTED}
+	ares-inspect --device=${EMU} --open ${APP}
 
 
 .PHONY: clean
 clean:
-	rm -rf dist
+	rm -rf dist .work
 	make -C watch clean

@@ -104,5 +104,4 @@ dist
 .tern-port
 
 # Bundled assets
-tv.cesium.bundled/index.html
-tv.cesium.bundled/assets
+.work
