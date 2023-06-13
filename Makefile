@@ -27,12 +27,12 @@ dist:
 
 .PHONY: watch
 watch:
-	make -C watch build
+	${MAKE} -C watch/watch build
 	cp -f watch/dist/index.html .work/index.html
 	cp -fR watch/dist/assets .work/assets 
 
 
-dist/${APP}_0.0.1_all.ipk: dist
+dist/${APP}_0.0.1_all.ipk: .work/index.html
 	ares-package .work -n -o dist/
 
 
@@ -54,12 +54,12 @@ bundled: assets watch
 
 
 .PHONY: run
-run: image install-tv
+run: install-tv
 	ares-launch --device=${TV} ${APP}
 
 
 .PHONY: install-tv
-install-tv: build
+install-tv:
 	ares-install --device=${TV} dist/${APP}_0.0.1_all.ipk
 
 
