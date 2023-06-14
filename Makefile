@@ -84,7 +84,11 @@ debug-emu:
 
 
 .PHONY: update
-update:
+update: submodule
+
+
+.PHONY: submodule
+submodule:
 	git submodule update --remote
 
 
